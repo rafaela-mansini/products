@@ -18,6 +18,17 @@ class ProductController
 
         try {
             $products = $prodDAO->selectAll();
+
+            foreach($products as $product){
+                $category = new Category();
+                $catDAO = new CategoryDAO();
+                $category = $catDAO->select($product->getCategoryId());
+                $product->setCategory($category[0]);
+            }
+            // echo '<pre>';
+            // exit(var_dump($products));
+            // echo '</pre>';
+
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

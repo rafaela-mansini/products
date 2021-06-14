@@ -3,8 +3,8 @@ class Database
 {
     const HOST = 'localhost';
     const DATABASE = 'store';
-    const USER = 'root';
-    const PASSWORD = '';
+    const USER = 'rafaela';
+    const PASSWORD = '123456789';
 
     public static $connection;
 

@@ -53,6 +53,25 @@ class CategoryController
         View::load('view/template/footer.html');
     }
 
+    public function store($data){
+        try {
+            $validator = new Validator($data);
+            $validator->rule('required', ['name', 'description']);
+
+            if($validator->validate()){
+                $category = new Category();
+                $category->setName($_POST['name']);
+                $category->setDescription($_POST['description']);
+
+                $categoryDAO = new CategoryDAO();
+                $categoryDAO->store($category);
+                header('location: index.php?category=index');
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function edit($id)
     {
         $this->data = array();
@@ -102,7 +121,13 @@ class CategoryController
     {
         $catdao = new CategoryDAO();
         try {
-            $catdao->delete($id);
+            $canDestroy = $catdao->countProducts($id);
+            if(!$canDestroy[0]->getCountProducts()){
+                $catdao->delete($id);
+            }
+            else{
+                echo 'Categoria já tem produtos associados a ela. Por favor apague os produtos para depois excluir a categoria.';
+            }
             header('location: index.php?category=index');
         } catch (PDOException $e) {
             echo $e->getMessage();

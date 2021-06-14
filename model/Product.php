@@ -8,6 +8,7 @@ class Product
     private $image;
     private $price;
     private $category_id;
+    private $category;
 
     public function __construct($id = null, $name = null, $description = null, $image = null, $price = null, $category_id = null)
     {
@@ -77,5 +78,13 @@ class Product
     public function setCategoryId($category_id)
     {
         $this->category_id = $category_id;
+    }
+
+    public function setCategory($category){
+        $this->category = $category;
+    }
+
+    public function getCategory(){
+        return $this->category;
     }
 }
